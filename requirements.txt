@@ -1,0 +1,8 @@
+fastapi == 0.109.0
+uvicorn
+python_multipart
+pandas
+joblib
+scikit_learn
+pydantic
+lightgbm
