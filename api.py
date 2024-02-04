@@ -29,7 +29,7 @@ class ClientInput(BaseModel):
 class PredictionOutput(BaseModel):
     client_id: int
     predicted_class: int
-    predicted_score: int
+    predicted_score: float
 
 @app.get("/predict/{client_id}")
 async def predict_class(client_id: int = Path(..., title="ID du client")):
@@ -38,12 +38,11 @@ async def predict_class(client_id: int = Path(..., title="ID du client")):
     
     if features_for_client_id is not None:
         #predicted_class = int(model.predict([features_for_client_id])[0] > 0.681)  
-        #predicted_score = int(model.predict([features_for_client_id])[0])
-##########################################
+        #predicted_score = float(model.predict_proba([features_for_client_id])[0])
         predicted_proba = model.predict_proba([features_for_client_id])[0]
+        #predicted_class = int(predicted_proba[1] > 0.681) 
         predicted_class = int(model.predict([features_for_client_id])[0] > 0.681)  
         predicted_score = float(predicted_proba[1])
-
         # la classe de sortie
         output = PredictionOutput(client_id=client_id, predicted_class=predicted_class, predicted_score=predicted_score)
         return output
