@@ -37,8 +37,13 @@ async def predict_class(client_id: int = Path(..., title="ID du client")):
     features_for_client_id = get_features_for_client_id(client_id)
     
     if features_for_client_id is not None:
+        #predicted_class = int(model.predict([features_for_client_id])[0] > 0.681)  
+        #predicted_score = int(model.predict([features_for_client_id])[0])
+##########################################
+        predicted_proba = model.predict_proba([features_for_client_id])[0]
         predicted_class = int(model.predict([features_for_client_id])[0] > 0.681)  
-        predicted_score = int(model.predict([features_for_client_id])[0])
+        predicted_score = float(predicted_proba[1])
+
         # la classe de sortie
         output = PredictionOutput(client_id=client_id, predicted_class=predicted_class, predicted_score=predicted_score)
         return output
