@@ -1,4 +1,5 @@
 fastapi == 0.109.0
+gunicorn
 uvicorn
 python_multipart
 pandas
